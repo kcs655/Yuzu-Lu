@@ -4,11 +4,93 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  user_id     Int       @id @default(autoincrement())
+  username    String    @unique
+  email       String    @unique
+  password    String
+  created_at  DateTime  @default(now())
+  Textbook    Textbook[]
+  WantedTextbook WantedTextbook[]
+  RequestAsRequester Request[] @relation("RequestRequester")
+  RequestAsOwner Request[] @relation("RequestOwner")
+  Notification Notification[]
+}
+
+model Textbook {
+  textbook_id Int       @id @default(autoincrement())
+  user_id     Int
+  title       String
+  author      String?
+  subject     String?
+  grade_level String?
+  image_url   String
+  details     String
+  created_at  DateTime  @default(now())
+  User        User      @relation(fields: [user_id], references: [user_id])
+  WantedTextbook WantedTextbook[]
+  Request     Request[]
+}
+
+model WantedTextbook {
+  wanted_id   Int       @id @default(autoincrement())
+  user_id     Int
+  textbook_id Int
+  created_at  DateTime  @default(now())
+  User        User      @relation(fields: [user_id], references: [user_id])
+  Textbook    Textbook  @relation(fields: [textbook_id], references: [textbook_id])
+}
+
+model Request {
+  request_id  Int       @id @default(autoincrement())
+  requester_id Int
+  textbook_id Int
+  owner_id    Int
+  status      String
+  created_at  DateTime  @default(now())
+  User        User      @relation("RequestRequester", fields: [requester_id], references: [user_id])
+  Owner       User      @relation("RequestOwner", fields: [owner_id], references: [user_id])
+  Textbook    Textbook  @relation(fields: [textbook_id], references: [textbook_id])
+  Chat        Chat[]
+  Transaction Transaction[]
+  Notification Notification[]
+}
+
+model Notification {
+  notification_id Int      @id @default(autoincrement())
+  user_id         Int
+  message         String
+  request_id      Int
+  created_at      DateTime @default(now())
+  status          String
+  User            User     @relation(fields: [user_id], references: [user_id])
+  Request         Request  @relation(fields: [request_id], references: [request_id])
+}
+
+model Chat {
+  chat_id     Int      @id @default(autoincrement())
+  request_id  Int
+  message     String
+  created_at  DateTime @default(now())
+  Request     Request  @relation(fields: [request_id], references: [request_id])
+}
+
+model Transaction {
+  transaction_id Int      @id @default(autoincrement())
+  request_id     Int
+  location       String
+  date_time      DateTime
+  Request        Request  @relation(fields: [request_id], references: [request_id])
+}
+
+
+

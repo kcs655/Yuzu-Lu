@@ -55,7 +55,7 @@ model Request {
   requester_id Int
   textbook_id Int
   owner_id    Int
-  status      String
+  status      RequestStatus @default(待機中)
   created_at  DateTime  @default(now())
   User        User      @relation("RequestRequester", fields: [requester_id], references: [user_id])
   Owner       User      @relation("RequestOwner", fields: [owner_id], references: [user_id])
@@ -71,7 +71,7 @@ model Notification {
   message         String
   request_id      Int
   created_at      DateTime @default(now())
-  status          String
+  status          NotificationStatus @default(未読)
   User            User     @relation(fields: [user_id], references: [user_id])
   Request         Request  @relation(fields: [request_id], references: [request_id])
 }
@@ -91,6 +91,15 @@ model Transaction {
   date_time      DateTime
   Request        Request  @relation(fields: [request_id], references: [request_id])
 }
-
+enum RequestStatus { 
+  承諾 
+  拒否 
+  待機中 
+}
+ 
+enum NotificationStatus { 
+  未読 
+  既読 
+ }
 
 

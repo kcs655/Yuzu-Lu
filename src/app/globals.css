@@ -1,21 +1,59 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* 全体レイアウト */
+.layout {
+  display: flex;
+  height: 100vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* サイドバー */
+.sidebar {
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* ユーザー情報 */
+.user {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-icon {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+/* ナビゲーション */
+.nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+}
+
+.nav a {
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  margin: 5px 0;
+  transition: background-color 0.3s ease;
+}
+
+.nav a:hover {
+  background-color: #555;
+}
+
+/* メインコンテンツ */
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
 }

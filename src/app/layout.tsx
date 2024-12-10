@@ -29,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <a href="/register-textbook">登録</a>
                 <a href="/wishlist">欲しいリスト</a>
                 <a href="/trade">取引</a>
+                <a href="/settings">設定</a>
                 <a href="/" className="logout-button">ログアウト</a>
               </nav>
             </aside>

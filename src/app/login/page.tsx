@@ -1,21 +1,38 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ログイン処理の実装（仮）
-    console.log({ email, password });
+    const userData = { email, password };
 
-    // ログイン後にマイページへ遷移
-    router.push("/mypage");
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`ログイン成功！${data.username}さん`);
+        router.push('/mypage'); // ログイン成功したらmypageに遷移
+      } else {
+        alert('ログイン失敗');
+      }
+    } catch (error) {
+      console.error('エラー:', error);
+      alert('エラーが発生しました。');
+    }
   };
 
   return (
@@ -28,6 +45,7 @@ export default function Login() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </label>
         <label>
@@ -36,6 +54,7 @@ export default function Login() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </label>
         <button type="submit">ログイン</button>

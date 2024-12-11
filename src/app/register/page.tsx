@@ -1,15 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function Register() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ username, email, password });
+
+    const userData = { username, email, password };
+
+    try {
+      const response = await fetch('/api/register-user', { // APIエンドポイントが正しいか確認
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        alert('ユーザーが登録されました！');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+      } else {
+        alert('ユーザー登録に失敗しました。');
+      }
+    } catch (error) {
+      console.error('エラー:', error);
+      alert('エラーが発生しました。');
+    }
   };
 
   return (
@@ -22,6 +45,7 @@ export default function Register() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </label>
         <label>
@@ -30,6 +54,7 @@ export default function Register() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </label>
         <label>
@@ -38,6 +63,7 @@ export default function Register() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </label>
         <button type="submit">登録</button>

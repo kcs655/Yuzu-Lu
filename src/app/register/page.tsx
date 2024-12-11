@@ -1,5 +1,6 @@
 "use client";
 
+// pages/register.tsx
 import { useState } from 'react';
 
 export default function Register() {
@@ -13,7 +14,7 @@ export default function Register() {
     const userData = { username, email, password };
 
     try {
-      const response = await fetch('/api/register-user', { // APIエンドポイントが正しいか確認
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -6,7 +6,7 @@ export default function PostsCreateForm() {
     title: '',
     author: '',
     subject: '',
-    grade: '',
+    grade_level: '',
     details: '',
     email: '',
     image: null as File | null
@@ -36,7 +36,7 @@ export default function PostsCreateForm() {
       postFormData.append('title', formData.title);
       postFormData.append('author', formData.author);
       postFormData.append('subject', formData.subject);
-      postFormData.append('grade', formData.grade);
+      postFormData.append('grade_level', formData.grade_level);
       postFormData.append('details', formData.details);
       postFormData.append('email', formData.email);
       postFormData.append('image', formData.image);
@@ -88,7 +88,7 @@ export default function PostsCreateForm() {
       <input
         type="text"
         className="w-full rounded bg-gray-100 p-2"
-        name="grade"
+        name="grade_level"
         onChange={handleChange}
         required
       />

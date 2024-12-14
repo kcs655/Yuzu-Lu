@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createPost(formData: FormData) {
-  const email = formData.get("email") as string;
+  const email = "take@example.com";
   const title = formData.get("title") as string;
   const author = formData.get("author") as string;
   const subject = formData.get("subject") as string;
@@ -18,7 +18,7 @@ export async function createPost(formData: FormData) {
   });
 
   const user = await prisma.user.findFirstOrThrow({
-    where: { email },
+    where: {  email },
   });
 
   await prisma.textbook.create({
@@ -33,6 +33,6 @@ export async function createPost(formData: FormData) {
     },
   });
 
-  revalidatePath("/dashboard");
-  redirect("/dashboard");
+  revalidatePath("/mypage");
+  redirect("/mypage");
 }
